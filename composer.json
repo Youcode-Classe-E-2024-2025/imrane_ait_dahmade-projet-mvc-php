@@ -1,0 +1,15 @@
+{
+    "name": "imrane/imrane_ait_dahmade-projet-mvc-php",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "imrane-ait-dahmade",
+            "email": "imraneaitdahmade2006@gmail.com"
+        }
+    ],
+    "require": {}
+}
