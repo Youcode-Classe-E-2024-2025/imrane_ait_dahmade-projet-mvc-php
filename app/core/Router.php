@@ -1,61 +1,44 @@
+<?php 
+namespace app\core;
 
+class Router {
 
-<?php
-
-class Router
-{
     private $routes = [];
+    private $notFoundCallback;
 
-    public function add($method, $path, $handler)
-    {
-        $this->routes[] = [
-            'method' => strtoupper($method),
-            'path' => $path,
-            'handler' => $handler
-        ];
-    }
+   public function __construct(array $routes){
+    $this->routes = $routes;
+    
+   }
+   
+   public function setNotFoundCallback(callable $callback)
+   {
+       $this->notFoundCallback = $callback;
+   }
 
-    public function dispatch()
-    {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+   public function dispatch($Uri){
+        foreach ($this->routes as $Route) {
+            var_dump($Route['path']);die;
+        if($Route['path'] === $Uri){
+      $controllerClass = "\App\Controllers\ " . $Route['Controller'] ;
+      $Action = $Route['Action'];
 
-        foreach ($this->routes as $route) {
-            $pattern = $this->convertToRegex($route['path']);
-
-            if ($route['method'] === $requestMethod && preg_match($pattern, $requestUri, $matches)) {
-
-                array_shift($matches);
-
-                $args = array_values($matches);
-
-                $handlerName = explode('@', $route['handler']);
-                if (count($handlerName) !== 2) {
-                    throw new Exception("Invalid handler format. Expected 'Controller@method'.");
-                }
-
-                $className = ucfirst($handlerName[0]) . 'Controller';
-                $methodName = $handlerName[1];
-
-                if (class_exists($className) && method_exists($className, $methodName)) {
-                    $controller = new $className();
-                    return call_user_func_array([$controller, $methodName], $args);
-                } else {
-                    throw new Exception("Controller or method not found: $className@$methodName");
-                }
+            if(file_exists($controllerClass) && method_exists($controllerClass,$Action)){
+                $controller = new $controllerClass();
+                return $controller->$Action();
             }
+
+        }
+        if ($this->notFoundCallback) {
+            call_user_func($this->notFoundCallback);
+        } else {
+            echo "404 Not Found";
         }
 
-        http_response_code(404);
-        echo '404 Not found';
-    }
+        }
+   }
 
-
-    private function convertToRegex($path)
-    {
-        $pattern = preg_replace('/\{([^}]+)\}/', '(?P<\1>[^/]+)', $path);
-        return '#^' . $pattern . '$#';
-    }
 }
+
 
 ?>
