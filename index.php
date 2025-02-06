@@ -9,3 +9,4 @@ use app\core\Router;
 $db = Database::Instantante();
 
 $r = new Router($return);
+echo $_SERVER['REQUEST_URI'];
