@@ -35,13 +35,20 @@ VALUES (:name, :email, :password);";
             ':email' => $email,
             ':password' => $password
         ]);
+        return $stmt->rowCount();
     }
 
-    public function SelectUser($email)
+    public function selectUser(string $email)
     {
-        $requet = "SELECT * FROM User where email = :email ";
-        $stmt = $this->conn->prepare($requet);
+        // Prépare la requête
+        $query = "SELECT * FROM \"User\" WHERE email  = :email";
+        $stmt = $this->conn->prepare($query);
+    
+        // Exécute la requête avec le paramètre email
         $stmt->execute([':email' => $email]);
+    
+        // Récupère l'utilisateur si trouvé
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
 }

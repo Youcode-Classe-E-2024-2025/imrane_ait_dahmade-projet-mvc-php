@@ -26,30 +26,32 @@ class UserTest extends TestCase {
         $this->mockDb->method('prepare')->willReturn($mockStmt);
 
         // Appel de la méthode register
-        $result = $this->user->register("Jo Doe", "jo.doe@example.com", "passwo123");
+        $result = $this->user->register("imdr", "imd.doe@example.com", "passwo3");
 
         // Vérification que le résultat retourné correspond bien à 1 ligne affectée
         $this->assertEquals(1, $result);
     }
-    public function TestSelectUser(){
-           // Exemple de mock pour simuler une requête de sélection d'un utilisateur
-           $mockStmt = $this->createMock(PDOStatement::class);
-           $mockStmt->method('fetch')->willReturn([
-               'id' => 1,
-               'name' => 'John Doe',
-               'email' => 'john.doe@example.com',
-               'password' => 'hashed_password'
-           ]);
-   
-           // Configuration du mock de la connexion pour retourner le mock de la requête
-           $this->mockDb->method('prepare')->willReturn($mockStmt);
-   
-           // Appel de la méthode selectUser (il faut que cette méthode existe dans la classe User)
-           $result = $this->user->selectUser('john.doe@example.com');
-   
-           // Vérification du résultat retourné
-           $this->assertNotEmpty($result);
-           $this->assertEquals('John Doe', $result['name']);
-       
+    public function testSelectUser()
+    {
+        // Création du mock pour la connexion
+        $mockStmt = $this->createMock(PDOStatement::class);
+    
+        // Simulation de la méthode fetch pour retourner des données fictives
+        $mockStmt->method('fetch')->willReturn([
+            'id' => 1,
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'password' => 'hashed_password'
+        ]);
+    
+        // Création du mock de la connexion PDO pour retourner le mock de la requête
+        $this->mockDb->method('prepare')->willReturn($mockStmt);
+    
+        // Appel de la méthode selectUser avec l'email
+        $result = $this->user->selectUser('imdgr.doe@example.com');
+    
+        // Vérification que les résultats correspondent aux attentes
+        $this->assertEquals('imdr', $result['name']);
+        $this->assertEquals('imdgr.doe@example.com', $result['email']);
     }
 }
