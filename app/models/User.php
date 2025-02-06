@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use app\core\Database;
-use PDO;
+
+
 
 class User
 {
@@ -11,12 +12,12 @@ class User
     private $email;
     private $password;
 
-    private PDO $conn;
+    private  $conn;
 
 
     public function __construct()
     {
-        $this->conn;
+        $this->conn = Database::instance()->getConnection();
     }
     public  function hashPassword($password){
        return password_hash($password,PASSWORD_DEFAULT);
@@ -26,7 +27,7 @@ class User
     {
 
        $password = $this->hashPassword($password);
-        $requet = "INSERT INTO User (name, email, password)
+        $requet = "INSERT INTO \"User\" (name, email, password)
 VALUES (:name, :email, :password);";
         $stmt =  $this->conn->prepare($requet);
         $stmt->execute([
@@ -36,3 +37,4 @@ VALUES (:name, :email, :password);";
         ]);
     }
 }
+
