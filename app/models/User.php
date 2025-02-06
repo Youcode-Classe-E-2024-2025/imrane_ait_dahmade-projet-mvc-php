@@ -1,33 +1,38 @@
-<?php 
+<?php
 
 namespace App\Models;
 
-class User{
-    private $name ;
-    private $email ;
-    private $password ;
+use app\core\Database;
+use PDO;
 
-    public function __construct($name,$email) {
-        $this->name = $name ;
-        $this->email = $email;
+class User
+{
+    private $name;
+    private $email;
+    private $password;
+
+    private PDO $conn;
+
+
+    public function __construct()
+    {
+        $this->conn;
+    }
+    public  function hashPassword($password){
+       return password_hash($password,PASSWORD_DEFAULT);
     }
 
-    
-    public function register($name , $eamil , $password){
-            $requet = "INSERT INTO cars (brand, model, year)
-VALUES ('Ford', 'Mustang', 1964);"
+    public function register($name, $email, $password)
+    {
 
-
+       $password = $this->hashPassword($password);
+        $requet = "INSERT INTO User (name, email, password)
+VALUES (:name, :email, :password);";
+        $stmt =  $this->conn->prepare($requet);
+        $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':password' => $password
+        ]);
     }
-
-
-
-
 }
-
-
-
-
-
-
-?>
