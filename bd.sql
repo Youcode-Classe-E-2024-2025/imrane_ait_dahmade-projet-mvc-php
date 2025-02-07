@@ -16,3 +16,19 @@ INSERT INTO "User" (name, email, password) VALUES
 
 SELECT * FROM USER 
 
+
+CREATE TABLE "ARTICLE" (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author_id BIGINT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES "User" (id)
+);
+
+-- Insérer des données fictives dans la table Article
+INSERT INTO "Article" (title, content, author_id) VALUES
+    ('First article', 'Content of the first article.', 1),
+    ('Second article', 'Content of the second article.', 2),
+    ('Third article', 'Content of the third article.', 3),
+    ('Fourth article', 'Content of the fourth article.', 4),
+    ('Fifth article', 'Content of the fifth article.', 5);

@@ -20,3 +20,4 @@ $routes = [
     
 $Router = new Router($routes);
 $Router->dispatch($_SERVER['REQUEST_URI']);
+echo $_SERVER['REQUEST_URI'];

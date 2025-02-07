@@ -9,36 +9,16 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        // Code for listing articles
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null; // Vérifie si l'utilisateur est connecté
+
+        $this->view('article');
+        
     }
 
     public function show($id)
     {
-        // Code for showing a single article
-    }
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null; // Vérifie si l'utilisateur est connecté
 
-    public function create()
-    {
-        // Code for creating a new article
-    }
-
-    public function store()
-    {
-        // Code for storing a new article
-    }
-
-    public function edit($id)
-    {
-        // Code for editing an article
-    }
-
-    public function update($id)
-    {
-        // Code for updating an article
-    }
-
-    public function delete($id)
-    {
-        // Code for deleting an article
+        $this->view('article', ['id' => $id]);
     }
 }

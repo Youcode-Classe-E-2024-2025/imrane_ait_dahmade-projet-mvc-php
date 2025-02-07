@@ -11,6 +11,15 @@ use app\core\Auth;
 class UserCotroller extends Controller
 {
 
+  public function index(){
+    $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+    if($user){
+      $this->view('back/user/index');
+    }else{
+      $this->view('back/auth/login');
+    }
+  }
+
 public function Login()
   {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
