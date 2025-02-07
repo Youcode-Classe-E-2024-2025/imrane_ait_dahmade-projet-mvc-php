@@ -17,8 +17,10 @@ class ArticleController extends Controller
 
     public function show($id)
     {
-        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null; // Vérifie si l'utilisateur est connecté
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+
 
         $this->view('article', ['id' => $id]);
     }
+
 }
