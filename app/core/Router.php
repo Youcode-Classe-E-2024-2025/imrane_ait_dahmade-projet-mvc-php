@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace app\core;
 
 class Router {
@@ -6,39 +7,39 @@ class Router {
     private $routes = [];
     private $notFoundCallback;
 
-   public function __construct(array $routes){
-    $this->routes = $routes;
-    
-   }
-   
-   public function setNotFoundCallback(callable $callback)
-   {
-       $this->notFoundCallback = $callback;
-   }
+    public function __construct(array $routes)
+    {
+        $this->routes = $routes;
+    }
 
-   public function dispatch($Uri){
+    public function setNotFoundCallback(callable $callback)
+    {
+        $this->notFoundCallback = $callback;
+    }
+
+    public function dispatch($Uri)
+    {
         foreach ($this->routes as $Route) {
-            var_dump($Route['path']);die;
-        if($Route['path'] === $Uri){
-      $controllerClass = "\App\Controllers\ " . $Route['Controller'] ;
-      $Action = $Route['Action'];
 
-            if(file_exists($controllerClass) && method_exists($controllerClass,$Action)){
-                $controller = new $controllerClass();
-                return $controller->$Action();
+            if ($Route['path'] === $Uri) {
+                $controllerClass = "app\\controllers\\" . $Route['controller'];
+                $Action = $Route['action'];
+
+                if (class_exists($controllerClass) && method_exists($controllerClass, $Action)) {
+                    $controller = new $controllerClass();
+                    return $controller->$Action();
+                }
             }
-
+            if ($this->notFoundCallback) {
+                call_user_func($this->notFoundCallback);
+            } else {
+                echo "404 Not Found";
+            }
         }
-        if ($this->notFoundCallback) {
-            call_user_func($this->notFoundCallback);
-        } else {
-            echo "404 Not Found";
-        }
+    }
+    public function GetRoutes()
+    {
 
-        }
-   }
-
+        return $this->routes;
+    }
 }
-
-
-?>

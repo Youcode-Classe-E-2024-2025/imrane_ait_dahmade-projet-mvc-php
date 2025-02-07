@@ -10,7 +10,7 @@ class Validator{
     }
 
     public function isValidEmail($email){
-        return filter_input($email,FILTER_VALIDATE_EMAIL) !== False;
+        return filter_input(INPUT_POST ,$email,FILTER_VALIDATE_EMAIL) !== False;
     }
 
 }
