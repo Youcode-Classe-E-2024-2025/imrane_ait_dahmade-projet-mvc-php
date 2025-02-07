@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Controllers\Back;
+namespace app\Controllers\Back;
 
-use App\Core\Auth as CoreAuth;
+use app\Core\Auth as CoreAuth;
 use app\core\Controller;
 use app\core\Validator;
 use App\Models\User;
 use app\core\Auth;
 
-class UserCotroller extends Controller
+class UserController extends Controller
+
 {
 
   public function index(){
     $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
     if($user){
-      $this->view('back/user/index');
+     echo "vous etes connecter";
     }else{
-      $this->view('back/auth/login');
+      echo "vous n'etes pas connecter";
     }
   }
 
 public function Login()
   {
+   
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $email = $_POST['email'];
       $password = $_POST['password'];
@@ -45,7 +47,7 @@ public function Login()
       echo "trouve";
 
       if (password_verify($password, $user['password'])) {
-        
+        Auth::login($user);
       }
     }
   }

@@ -18,7 +18,8 @@ class ArticleController extends Controller
     {
     $data = new Article;
     $article = $data->getArticles($id);
-        $this->view('article', $article);
+        $this->view('article', $article);      
     }
+    
     
 }
