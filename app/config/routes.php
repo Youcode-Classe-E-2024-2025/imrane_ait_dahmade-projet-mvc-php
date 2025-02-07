@@ -12,10 +12,10 @@ $routes = [
     ],
     'login' => [
         'path' =>'/login',
-        'controller'=>'UserController',
+        'controller'=>'back\\UserController',
         'action' => 'login',
         ]
-        
+
     ];
     
 $Router = new Router($routes);

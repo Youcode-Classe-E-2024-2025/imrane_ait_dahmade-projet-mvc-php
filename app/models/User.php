@@ -25,7 +25,6 @@ class User
 
     public function register($name, $email, $password)
     {
-
         $password = $this->hashPassword($password);
         $requet = "INSERT INTO \"User\" (name, email, password)
 VALUES (:name, :email, :password);";

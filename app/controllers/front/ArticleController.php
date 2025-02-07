@@ -3,7 +3,7 @@
 <?php
 
 namespace App\Controllers\Front;
-
+use App\Models\Article;
 use App\Core\Controller;
 class ArticleController extends Controller
 {
@@ -14,13 +14,11 @@ class ArticleController extends Controller
         $this->view('article');
         
     }
-
     public function show($id)
     {
-        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
-
-
-        $this->view('article', ['id' => $id]);
+    $data = new Article;
+    $article = $data->getArticles($id);
+        $this->view('article', $article);
     }
-
+    
 }

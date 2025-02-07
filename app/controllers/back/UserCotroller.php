@@ -42,8 +42,10 @@ public function Login()
         echo "non trouve ";
         return;
       }
+      echo "trouve";
 
       if (password_verify($password, $user['password'])) {
+        
       }
     }
   }

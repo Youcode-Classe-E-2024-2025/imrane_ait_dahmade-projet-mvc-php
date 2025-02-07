@@ -12,18 +12,13 @@ class Article
     private $content;
     private $author;
     private $created_at;
-    private $db;
+    private $conn;
 
-    public function __construct($id, $title, $content, $author, $created_at)
+    public function __construct()
     {
-        $this->id = $id;
-        $this->title = $title;
-        $this->content = $content;
-        $this->author = $author;
-        $this->created_at = $created_at;
+        $this->conn = Database::instance()->getConnection();
     }
-
-    // Getters
+   
     public function getId()
     {
         return $this->id;
@@ -72,7 +67,7 @@ class Article
     public function AjouterArticle()
     {
         $requet = "INSERT INTO article (title, content, author, created_at) VALUES (:title, :content, :author, :created_at)";
-        $stmt = $this->db->prepare($requet);  // Utilisation de prepare() au lieu de query()
+        $stmt = $this->conn->prepare($requet);  
         
         $stmt->execute([
             ':title' => $this->title,
@@ -82,14 +77,18 @@ class Article
         ]);
     }
 
-    public function getArticles()
+    public function getArticles($idUser)
     {
-        $query = "SELECT * FROM article";
-        $stmt = $this->db->query($query);
+
+        $query = "SELECT * FROM article where author_id = :author";
+
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':author' => $idUser]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
+
 
     
 }
